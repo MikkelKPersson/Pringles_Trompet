@@ -87,6 +87,7 @@ boolean isUsingEffect = false;
 #define airSensor A2
 
 float distToFreq = 0;
+float vol = 0;
 
 // ------------------------ ARDUINO SETUP METHOD ------------------------
 
@@ -95,7 +96,8 @@ void setup() {
 
   // enable the audio shield
   sgtl5000_1.enable();
-  sgtl5000_1.volume(0.2);
+  
+  sgtl5000_1.volume(vol);
 
   // Control
   Serial.begin(38400);
@@ -105,7 +107,7 @@ void setup() {
   pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
 
-    env.noteOn();
+
 }
 
 
@@ -139,17 +141,17 @@ void loop() {
   //if (distance > 50) {
   //  distance = 50;
  // }
-  distToFreq = map(distance, 4, 50, 300, 9000);
+  distToFreq = map(distance, 700, 90, 300, 9000);
 
 
-  Serial.println(distance);
+  //Serial.println(distance);
   //Serial.println(distToFreq);
 
   
 
   // setting the frequency, resonance and octave of the filter
   filter1.frequency(distToFreq); //set to current tone
-  filter1.resonance(3);
+  filter1.resonance(5);
   filter1.octaveControl(1);
 
   env.attack(50);
@@ -246,7 +248,24 @@ void loop() {
 
    Serial.println(airPressure);
   delay(100);
+
+  
+  //play
+   boolean notePlaying = false;
+  if (airPressure > 150 && !notePlaying){
+    notePlaying = true;
+    env.noteOn();
+  }
+  if (airPressure < 150){
+    notePlaying = false;
+    env.noteOff();
+  }
+
+  vol = map(airPressure, 150, 1000, 0, 1);
+  sgtl5000_1.volume(vol);
 }
+
+
 
 void checkEffectsButton() {
   if (digitalRead(effectsButton) == LOW) {
@@ -259,6 +278,7 @@ void checkEffectsButton() {
     isPressing = false;
   }
   if(isUsingEffect) {
-     Serial.println("KABOOM");
+   //  Serial.println("KABOOM");
   }  
+
 }
