@@ -133,16 +133,17 @@ void loop() {
   sine8.amplitude(0.04);
 
    // 5v
-  float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
-  float distance = 13 * pow(volts, -1); // worked out from datasheet graph
-  if (distance > 50) {
-    distance = 50;
-  }
-  distToFreq = map(distance, 4, 50, 100, 11000);
+  //float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
+  //float distance = 13 * pow(volts, -1); // worked out from datasheet graph
+  float distance = analogRead(IRSensor);
+  //if (distance > 50) {
+  //  distance = 50;
+ // }
+  distToFreq = map(distance, 4, 50, 300, 9000);
 
 
   Serial.println(distance);
-  Serial.println(distToFreq);
+  //Serial.println(distToFreq);
 
   
 
@@ -164,72 +165,72 @@ void loop() {
   // Controller
   if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("e5");
+      // Serial.println("e5");
       note = e4 * 2;
     } else {
-      Serial.println("e4");
+      // Serial.println("e4");
       note = e4;
     }
 
   } else if (digitalRead(button1) == LOW && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("f#5");
+      // Serial.println("f#5");
       note = fSharp4 * 2;
     } else {
-      Serial.println("f#4");
+      // Serial.println("f#4");
       note = fSharp4;
     }
   } else if (digitalRead(button1) == LOW && digitalRead(button2) == LOW && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("g5");
+      // Serial.println("g5");
       note = g4 * 2;
     } else {
-      Serial.println("g4");
+      // Serial.println("g4");
       note = g4;
     }
 
   } else if (digitalRead(button1) == LOW && digitalRead(button2) == LOW && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("a5");
+      // Serial.println("a5");
       note = a4 * 2;
     } else {
-      Serial.println("a4");
+      // Serial.println("a4");
       note = a4;
     }
 
   } else if (digitalRead(button1) == HIGH && digitalRead(button2) == LOW && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("b5");
+      // Serial.println("b5");
       note = b4 * 2;
     } else {
-      Serial.println("b4");
+      // Serial.println("b4");
       note = b4;
     }
 
   } else if (digitalRead(button1) == HIGH && digitalRead(button2) == LOW && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("c#5");
+      // Serial.println("c#5");
       note = cSharp5 * 2;
     } else {
-      Serial.println("c#4");
+      // Serial.println("c#4");
       note = cSharp5;
     }
 
   } else if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("d6");
+      // Serial.println("d6");
       note = d5 * 2;
     } else {
-      Serial.println("d5");
+      // Serial.println("d5");
       note = d5;
     }
 
   } else if (digitalRead(button1) == LOW && digitalRead(button2) == HIGH && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
-      Serial.println("e6");
+      // Serial.println("e6");
       note = e4 * 2 * 2;
     } else {
-      Serial.println("e5");
+      // Serial.println("e5");
       note = e4 * 2;
     }
   }
@@ -243,7 +244,7 @@ void loop() {
   delay(10);
   float airPressure = analogRead(airSensor);
 
-  Serial.println(airPressure);
+   Serial.println(airPressure);
   delay(100);
 }
 
@@ -258,6 +259,6 @@ void checkEffectsButton() {
     isPressing = false;
   }
   if(isUsingEffect) {
-    Serial.println("KABOOM");
+     Serial.println("KABOOM");
   }  
 }
