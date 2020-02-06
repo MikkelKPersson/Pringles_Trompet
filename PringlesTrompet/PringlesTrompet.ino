@@ -78,9 +78,10 @@ float cSharp5 = 554.4;
 float d5 = 587.3;
 
 int octButton = 3;
+int effectsButton = 4;
 
-#define sensor A8
-
+#define IRSensor A8
+#define airSensor A2
 
 void setup() {
   // put your setup code here, to run once:
@@ -97,6 +98,7 @@ void setup() {
   pinMode(0, INPUT_PULLUP);
   pinMode(1, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
+  pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
   
 }
@@ -140,8 +142,6 @@ void loop() {
   FXmixer.gain(1,0.5);
 
   env.noteOn();
-
-
 
 
   // Controller
@@ -218,15 +218,23 @@ void loop() {
     }
   }
 
+  if(digitalRead(effectsButton) == LOW) {
+    Serial.println("KABUM");
+  }
+
     // 5v
-  float volts = analogRead(sensor)*0.0048828125;  // value from sensor * (5/1024)
+  float volts = analogRead(IRSensor)*0.0048828125;  // value from sensor * (5/1024)
   int distance = 13*pow(volts, -1); // worked out from datasheet graph
   delay(500); // slow down serial port 
   
 //  if (distance <= 30){
-    Serial.println(distance);   // print the distance
+    //Serial.println(distance);   // print the distance
   //}
   
+  delay(100);
+  float airPressure = analogRead(airSensor);
+
+  Serial.println(airPressure);
   delay(100);
 
 }
