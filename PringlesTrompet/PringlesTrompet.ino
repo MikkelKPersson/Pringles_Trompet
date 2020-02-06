@@ -1,8 +1,11 @@
+// ------------------------ LIBRARIES ------------------------
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+
+// ------------------------ GLOBAL VARIABLES ------------------------
 
 // GUItool: begin automatically generated code
 AudioSynthWaveformSine   sine16; //xy=271,709
@@ -65,10 +68,8 @@ AudioConnection          patchCord29(FXmixer, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=161,41
 // GUItool: end automatically generated code
 
-
 float note = 0;
-
-//base notes
+// base notes
 float e4 = 329.6;
 float fSharp4 = 370;
 float g4 = 392.0;
@@ -77,44 +78,46 @@ float b4 = 493.3;
 float cSharp5 = 554.4;
 float d5 = 587.3;
 
+// buttons
 int octButton = 3;
 int effectsButton = 4;
 
+// analog sensors
 #define IRSensor A8
 #define airSensor A2
 
+// ------------------------ ARDUINO SETUP METHOD ------------------------
+
 void setup() {
-  // put your setup code here, to run once:
-    AudioMemory(20);
+  AudioMemory(20);
 
   // enable the audio shield
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.2);
 
   // Control
-
   Serial.begin(38400);
-  //Serial.begin(9600);
   pinMode(0, INPUT_PULLUP);
   pinMode(1, INPUT_PULLUP);
   pinMode(2, INPUT_PULLUP);
   pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
-  
 }
 
+// ------------------------ ARDUINO LOOP METHOD ------------------------
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  sine1.frequency(1*note);
-  sine2.frequency(2*note);
-  sine3.frequency(3*note);
-  sine4.frequency(4*note);
-  sine5.frequency(5*note);
-  sine6.frequency(6*note);
-  sine7.frequency(7*note);
-  sine8.frequency(8*note);
-  
+  // setting the frequency of the sines
+  sine1.frequency(1 * note);
+  sine2.frequency(2 * note);
+  sine3.frequency(3 * note);
+  sine4.frequency(4 * note);
+  sine5.frequency(5 * note);
+  sine6.frequency(6 * note);
+  sine7.frequency(7 * note);
+  sine8.frequency(8 * note);
+
+  // setting the amplitude of the sines
   sine1.amplitude(0.19);
   sine2.amplitude(0.1);
   sine3.amplitude(0.11);
@@ -124,14 +127,14 @@ void loop() {
   sine7.amplitude(0.08);
   sine8.amplitude(0.04);
 
+  // setting the amplitude and frequencey of the LFO
   LFO.amplitude(1);
   LFO.frequency(4);
 
+  // setting the frequency, resonance and octave of the filter
   filter1.frequency(note); //set to current tone
   filter1.resonance(3);
   filter1.octaveControl(0.25);
-
-  
 
   env.attack(50);
   env.sustain(0.3);
@@ -139,15 +142,13 @@ void loop() {
   freeverb1.roomsize(0.2);
   freeverb1.damping(1);
 
-  FXmixer.gain(1,0.5);
+  FXmixer.gain(1, 0.5);
 
   env.noteOn();
 
-
   // Controller
-
-  if (digitalRead(0) == HIGH && digitalRead(1) == HIGH && digitalRead(2) == HIGH){
-    if (digitalRead(octButton) == LOW){
+  if (digitalRead(0) == HIGH && digitalRead(1) == HIGH && digitalRead(2) == HIGH) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("e5");
       note = e4 * 2;
     } else {
@@ -155,61 +156,61 @@ void loop() {
       note = e4;
     }
 
-  } else if (digitalRead(0) == LOW && digitalRead(1) == HIGH && digitalRead(2) == HIGH){
-    if (digitalRead(octButton) == LOW){
+  } else if (digitalRead(0) == LOW && digitalRead(1) == HIGH && digitalRead(2) == HIGH) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("f#5");
       note = fSharp4 * 2;
     } else {
       Serial.println("f#4");
       note = fSharp4;
     }
-  } else if (digitalRead(0) == LOW && digitalRead(1) == LOW && digitalRead(2) == HIGH){
-    if (digitalRead(octButton) == LOW){
+  } else if (digitalRead(0) == LOW && digitalRead(1) == LOW && digitalRead(2) == HIGH) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("g5");
       note = g4 * 2;
     } else {
       Serial.println("g4");
       note = g4;
     }
-    
-  } else if (digitalRead(0) == LOW && digitalRead(1) == LOW && digitalRead(2) == LOW){
-    if (digitalRead(octButton) == LOW){
+
+  } else if (digitalRead(0) == LOW && digitalRead(1) == LOW && digitalRead(2) == LOW) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("a5");
       note = a4 * 2;
     } else {
       Serial.println("a4");
       note = a4;
     }
-    
-  } else if (digitalRead(0) == HIGH && digitalRead(1) == LOW && digitalRead(2) == HIGH){
-    if (digitalRead(octButton) == LOW){
+
+  } else if (digitalRead(0) == HIGH && digitalRead(1) == LOW && digitalRead(2) == HIGH) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("b5");
       note = b4 * 2;
     } else {
       Serial.println("b4");
       note = b4;
     }
-    
-  } else if (digitalRead(0) == HIGH && digitalRead(1) == LOW && digitalRead(2) == LOW){
-    if (digitalRead(octButton) == LOW){
+
+  } else if (digitalRead(0) == HIGH && digitalRead(1) == LOW && digitalRead(2) == LOW) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("c#5");
       note = cSharp5 * 2;
     } else {
       Serial.println("c#4");
       note = cSharp5;
     }
-    
-  } else if (digitalRead(0) == HIGH && digitalRead(1) == HIGH && digitalRead(2) == LOW){
-    if (digitalRead(octButton) == LOW){
+
+  } else if (digitalRead(0) == HIGH && digitalRead(1) == HIGH && digitalRead(2) == LOW) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("d6");
       note = d5 * 2;
     } else {
       Serial.println("d5");
       note = d5;
     }
-    
-  } else if (digitalRead(0) == LOW && digitalRead(1) == HIGH && digitalRead(2) == LOW){
-    if (digitalRead(octButton) == LOW){
+
+  } else if (digitalRead(0) == LOW && digitalRead(1) == HIGH && digitalRead(2) == LOW) {
+    if (digitalRead(octButton) == LOW) {
       Serial.println("e6");
       note = e4 * 2 * 2;
     } else {
@@ -218,23 +219,22 @@ void loop() {
     }
   }
 
-  if(digitalRead(effectsButton) == LOW) {
+  if (digitalRead(effectsButton) == LOW) {
     Serial.println("KABUM");
   }
 
-    // 5v
-  float volts = analogRead(IRSensor)*0.0048828125;  // value from sensor * (5/1024)
-  int distance = 13*pow(volts, -1); // worked out from datasheet graph
-  delay(500); // slow down serial port 
-  
-//  if (distance <= 30){
-    //Serial.println(distance);   // print the distance
-  //}
-  
+  // 5v
+  float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
+  int distance = 13 * pow(volts, -1); // worked out from datasheet graph
+  delay(500); // slow down serial port
+
+  if (distance <= 30) {
+    // Serial.println(distance);   // print the distance
+  }
+
   delay(100);
   float airPressure = analogRead(airSensor);
 
   Serial.println(airPressure);
   delay(100);
-
 }
