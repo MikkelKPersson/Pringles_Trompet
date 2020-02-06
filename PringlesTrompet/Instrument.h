@@ -44,7 +44,7 @@ class Instrument {
     // GUItool: end automatically generated code
 
     float note = 0;
-    
+
     // base notes
     float e4 = 329.6;
     float fSharp4 = 370;
@@ -75,9 +75,9 @@ class Instrument {
     // public methods
     void updateInstrument();
     void setupInstrument();
-
-    // private variables and methods
-    // private:
+    void setFreqAndAmp();
+    void checkEffectsButton();
+    void checkController();
 };
 
 #endif

@@ -8,8 +8,11 @@
 #include "SerialFlash.h"
 
 // --------------------------- INSTRUMENT METHODS IMPLEMENTATION ---------------------------
+
+// Constructor
 Instrument::Instrument() {}
 
+// setup of the instrument instance
 void Instrument::setupInstrument() {
   // GUItool: begin automatically generated code
   AudioConnection          patchCord1(sine16, 0, mixer4, 3);
@@ -56,26 +59,10 @@ void Instrument::setupInstrument() {
   pinMode(octButton, INPUT_PULLUP);
 }
 
+// update method of the instrument instance
 void Instrument::updateInstrument() {
-  // setting the frequency of the sines
-  sine1.frequency(1 * note);
-  sine2.frequency(2 * note);
-  sine3.frequency(3 * note);
-  sine4.frequency(4 * note);
-  sine5.frequency(5 * note);
-  sine6.frequency(6 * note);
-  sine7.frequency(7 * note);
-  sine8.frequency(8 * note);
-
-  // setting the amplitude of the sines
-  sine1.amplitude(0.19);
-  sine2.amplitude(0.1);
-  sine3.amplitude(0.11);
-  sine4.amplitude(0.34);
-  sine5.amplitude(0.43);
-  sine6.amplitude(0.075);
-  sine7.amplitude(0.08);
-  sine8.amplitude(0.04);
+  // setting the frequency and amplitude of the sines
+  setFreqAndAmp();
 
   // 5v
   // float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
@@ -102,9 +89,58 @@ void Instrument::updateInstrument() {
 
   FXmixer.gain(1, 0.5);
 
-
-
   // Controller
+  checkController();
+
+  // check the state of the effects button
+  checkEffectsButton();
+
+  delay(10);
+  float airPressure = analogRead(airSensor);
+
+  Serial.println(airPressure);
+  delay(100);
+
+  // play
+  boolean notePlaying = false;
+  if (airPressure > 150 && !notePlaying) {
+    notePlaying = true;
+    env.noteOn();
+  }
+  if (airPressure < 150) {
+    notePlaying = false;
+    env.noteOff();
+  }
+
+  vol = map(airPressure, 150, 1000, 0, 1);
+  sgtl5000_1.volume(vol);
+}
+
+// set the frequencies and amplitudes of the instrument
+void Instrument::setFreqAndAmp() {
+  // setting the frequency of the sines
+  sine1.frequency(1 * note);
+  sine2.frequency(2 * note);
+  sine3.frequency(3 * note);
+  sine4.frequency(4 * note);
+  sine5.frequency(5 * note);
+  sine6.frequency(6 * note);
+  sine7.frequency(7 * note);
+  sine8.frequency(8 * note);
+
+  // setting the amplitude of the sines
+  sine1.amplitude(0.19);
+  sine2.amplitude(0.1);
+  sine3.amplitude(0.11);
+  sine4.amplitude(0.34);
+  sine5.amplitude(0.43);
+  sine6.amplitude(0.075);
+  sine7.amplitude(0.08);
+  sine8.amplitude(0.04);
+}
+
+// control the instrument dependding on which buttons are pressed
+void Instrument::checkController() {
   if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
       // Serial.println("e5");
@@ -176,8 +212,10 @@ void Instrument::updateInstrument() {
       note = e4 * 2;
     }
   }
+}
 
-  // check the state of the effects button
+// check what the effects button is doing --> is it activating or deactivating the effect?
+void Instrument::checkEffectsButton() {
   if (digitalRead(effectsButton) == LOW) {
     if (!isPressing) { // if the user is not pressing anymore
       isUsingEffect = !isUsingEffect; // set the effect state to its opposite
@@ -190,24 +228,4 @@ void Instrument::updateInstrument() {
   if (isUsingEffect) {
     //  Serial.println("KABOOM");
   }
-
-  delay(10);
-  float airPressure = analogRead(airSensor);
-
-  Serial.println(airPressure);
-  delay(100);
-
-  // play
-  boolean notePlaying = false;
-  if (airPressure > 150 && !notePlaying) {
-    notePlaying = true;
-    env.noteOn();
-  }
-  if (airPressure < 150) {
-    notePlaying = false;
-    env.noteOff();
-  }
-
-  vol = map(airPressure, 150, 1000, 0, 1);
-  sgtl5000_1.volume(vol);
 }

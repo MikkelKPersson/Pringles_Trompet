@@ -6,7 +6,6 @@ Instrument* instrument;
 
 void setup() {
   instrument = new Instrument();
-  // instrument::Instrument();
   instrument -> setupInstrument();
 }
 
