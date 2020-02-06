@@ -1,41 +1,36 @@
-// ------------------------ LIBRARIES ------------------------
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
 
-// ------------------------ GLOBAL VARIABLES ------------------------
-
 // GUItool: begin automatically generated code
-AudioSynthWaveformSine   sine16; //xy=271,709
-AudioSynthWaveformSine   sine15; //xy=282,669
-AudioSynthWaveformSine   sine14;  //xy=283,635
-AudioSynthWaveformSine   sine13; //xy=284,601
-AudioSynthWaveformSine   sine8; //xy=287,435
-AudioSynthWaveformSine   sine7; //xy=288,400
-AudioSynthWaveformSine   sine6; //xy=289,366
-AudioSynthWaveformSine   sine5; //xy=290,332
-AudioSynthWaveformSine   sine11; //xy=290,534
-AudioSynthWaveformSine   sine12; //xy=290,567
-AudioSynthWaveformSine   sine10; //xy=291,501
-AudioSynthWaveformSine   sine9; //xy=292,469
-AudioSynthWaveformSine   sine3;          //xy=296,265
-AudioSynthWaveformSine   sine4;          //xy=296,298
-AudioSynthWaveformSine   sine2;          //xy=297,232
-AudioSynthWaveformSine   sine1;          //xy=298,200
-AudioMixer4              mixer4; //xy=531,620
-AudioMixer4              mixer3; //xy=532,556
-AudioMixer4              mixer2; //xy=537,351
-AudioMixer4              mixer1;         //xy=538,287
-AudioMixer4              tromponeMaster;         //xy=697,436
-AudioSynthWaveformSine   LFO;          //xy=799,595
-AudioFilterStateVariable filter1;        //xy=872,433
-AudioPlayMemory          playMem1;       //xy=993.0833129882812,625.0833129882812
-AudioEffectEnvelope      env;      //xy=1007,370
-AudioEffectFreeverb      freeverb1;      //xy=1012,483
-AudioMixer4              FXmixer;         //xy=1200,481
-AudioOutputI2S           i2s1;           //xy=1345,224
+AudioSynthWaveformSine   sine16;         //xy=174,726
+AudioSynthWaveformSine   sine15;         //xy=185,686
+AudioSynthWaveformSine   sine14;         //xy=186,652
+AudioSynthWaveformSine   sine13;         //xy=187,618
+AudioSynthWaveformSine   sine8;          //xy=190,452
+AudioSynthWaveformSine   sine7;          //xy=191,417
+AudioSynthWaveformSine   sine6;          //xy=192,383
+AudioSynthWaveformSine   sine5;          //xy=193,349
+AudioSynthWaveformSine   sine11;         //xy=193,551
+AudioSynthWaveformSine   sine12;         //xy=193,584
+AudioSynthWaveformSine   sine10;         //xy=194,518
+AudioSynthWaveformSine   sine9;          //xy=195,486
+AudioSynthWaveformSine   sine3;          //xy=199,282
+AudioSynthWaveformSine   sine4;          //xy=199,315
+AudioSynthWaveformSine   sine2;          //xy=200,249
+AudioSynthWaveformSine   sine1;          //xy=201,217
+AudioMixer4              mixer4;         //xy=434,637
+AudioMixer4              mixer3;         //xy=435,573
+AudioMixer4              mixer2;         //xy=440,368
+AudioMixer4              mixer1;         //xy=441,304
+AudioMixer4              tromponeMaster; //xy=600,453
+AudioFilterStateVariable filter1;        //xy=775,450
+AudioEffectEnvelope      env;            //xy=910,387
+AudioEffectFreeverb      freeverb1;      //xy=915,500
+AudioMixer4              FXmixer;        //xy=1103,498
+AudioOutputI2S           i2s1;           //xy=1248,241
 AudioConnection          patchCord1(sine16, 0, mixer4, 3);
 AudioConnection          patchCord2(sine15, 0, mixer4, 2);
 AudioConnection          patchCord3(sine14, 0, mixer4, 1);
@@ -57,15 +52,13 @@ AudioConnection          patchCord18(mixer3, 0, tromponeMaster, 2);
 AudioConnection          patchCord19(mixer2, 0, tromponeMaster, 1);
 AudioConnection          patchCord20(mixer1, 0, tromponeMaster, 0);
 AudioConnection          patchCord21(tromponeMaster, 0, filter1, 0);
-AudioConnection          patchCord22(LFO, 0, filter1, 1);
-AudioConnection          patchCord23(filter1, 0, env, 0);
-AudioConnection          patchCord24(playMem1, 0, FXmixer, 3);
-AudioConnection          patchCord25(env, freeverb1);
-AudioConnection          patchCord26(env, 0, FXmixer, 0);
-AudioConnection          patchCord27(freeverb1, 0, FXmixer, 1);
-AudioConnection          patchCord28(FXmixer, 0, i2s1, 0);
-AudioConnection          patchCord29(FXmixer, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=161,41
+AudioConnection          patchCord22(filter1, 0, env, 0);
+AudioConnection          patchCord23(env, freeverb1);
+AudioConnection          patchCord24(env, 0, FXmixer, 0);
+AudioConnection          patchCord25(freeverb1, 0, FXmixer, 1);
+AudioConnection          patchCord26(FXmixer, 0, i2s1, 0);
+AudioConnection          patchCord27(FXmixer, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=64,58
 // GUItool: end automatically generated code
 
 float note = 0;
@@ -92,6 +85,8 @@ boolean isUsingEffect = false;
 // analog sensors
 #define IRSensor A8
 #define airSensor A2
+
+float distToFreq = 0;
 
 // ------------------------ ARDUINO SETUP METHOD ------------------------
 
@@ -134,9 +129,16 @@ void loop() {
   sine7.amplitude(0.08);
   sine8.amplitude(0.04);
 
-  // setting the amplitude and frequencey of the LFO
-  LFO.amplitude(1);
-  LFO.frequency(4);
+   // 5v
+  float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
+  int distance = 13 * pow(volts, -1); // worked out from datasheet graph
+  distToFreq = map(distance, 16, 50, 100, 11000);
+
+  if (distance > 50) {
+    distance = 50;
+  }
+
+  
 
   // setting the frequency, resonance and octave of the filter
   filter1.frequency(note); //set to current tone
@@ -230,14 +232,7 @@ void loop() {
   // check the state of the effects button
   checkEffectsButton();
 
-  // 5v
-  float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
-  int distance = 13 * pow(volts, -1); // worked out from datasheet graph
-  delay(500); // slow down serial port
-
-  if (distance <= 30) {
-    // Serial.println(distance);   // print the distance
-  }
+ 
 
   delay(100);
   float airPressure = analogRead(airSensor);
