@@ -257,6 +257,6 @@ void checkEffectsButton() {
     isPressing = false;
   }
   if(isUsingEffect) {
-    Serial.println("KABUM");
+    Serial.println("KABOOM");
   }  
 }
