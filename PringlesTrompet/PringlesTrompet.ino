@@ -104,7 +104,10 @@ void setup() {
   pinMode(button3, INPUT_PULLUP);
   pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
+
+    env.noteOn();
 }
+
 
 // ------------------------ ARDUINO LOOP METHOD ------------------------
 
@@ -131,19 +134,22 @@ void loop() {
 
    // 5v
   float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
-  int distance = 13 * pow(volts, -1); // worked out from datasheet graph
-  distToFreq = map(distance, 16, 50, 100, 11000);
-
+  float distance = 13 * pow(volts, -1); // worked out from datasheet graph
   if (distance > 50) {
     distance = 50;
   }
+  distToFreq = map(distance, 4, 50, 100, 11000);
+
+
+  Serial.println(distance);
+  Serial.println(distToFreq);
 
   
 
   // setting the frequency, resonance and octave of the filter
-  filter1.frequency(note); //set to current tone
+  filter1.frequency(distToFreq); //set to current tone
   filter1.resonance(3);
-  filter1.octaveControl(0.25);
+  filter1.octaveControl(1);
 
   env.attack(50);
   env.sustain(0.3);
@@ -153,7 +159,7 @@ void loop() {
 
   FXmixer.gain(1, 0.5);
 
-  env.noteOn();
+
 
   // Controller
   if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
@@ -234,7 +240,7 @@ void loop() {
 
  
 
-  delay(100);
+  delay(10);
   float airPressure = analogRead(airSensor);
 
   Serial.println(airPressure);
