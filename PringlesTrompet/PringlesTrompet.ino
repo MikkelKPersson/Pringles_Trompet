@@ -85,6 +85,10 @@ int button3 = 2;
 int octButton = 3;
 int effectsButton = 4;
 
+// states of effects button: activate or deactivate
+boolean isPressing = false;
+boolean isUsingEffect = false;
+
 // analog sensors
 #define IRSensor A8
 #define airSensor A2
@@ -222,9 +226,9 @@ void loop() {
     }
   }
 
-  if (digitalRead(effectsButton) == LOW) {
-    Serial.println("KABUM");
-  }
+  
+  // check the state of the effects button
+  checkEffectsButton();
 
   // 5v
   float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
@@ -240,4 +244,19 @@ void loop() {
 
   Serial.println(airPressure);
   delay(100);
+}
+
+void checkEffectsButton() {
+  if (digitalRead(effectsButton) == LOW) {
+    if(!isPressing) { // if the user is not pressing anymore
+      isUsingEffect = !isUsingEffect; // set the effect state to its opposite
+      isPressing = true;
+    }
+  }
+  else if(digitalRead(effectsButton) == HIGH) {
+    isPressing = false;
+  }
+  if(isUsingEffect) {
+    Serial.println("KABUM");
+  }  
 }
