@@ -79,6 +79,9 @@ float cSharp5 = 554.4;
 float d5 = 587.3;
 
 // buttons
+int button1 = 0;
+int button2 = 1;
+int button3 = 2;
 int octButton = 3;
 int effectsButton = 4;
 
@@ -97,9 +100,9 @@ void setup() {
 
   // Control
   Serial.begin(38400);
-  pinMode(0, INPUT_PULLUP);
-  pinMode(1, INPUT_PULLUP);
-  pinMode(2, INPUT_PULLUP);
+  pinMode(button1, INPUT_PULLUP);
+  pinMode(button2, INPUT_PULLUP);
+  pinMode(button3, INPUT_PULLUP);
   pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
 }
@@ -147,7 +150,7 @@ void loop() {
   env.noteOn();
 
   // Controller
-  if (digitalRead(0) == HIGH && digitalRead(1) == HIGH && digitalRead(2) == HIGH) {
+  if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("e5");
       note = e4 * 2;
@@ -156,7 +159,7 @@ void loop() {
       note = e4;
     }
 
-  } else if (digitalRead(0) == LOW && digitalRead(1) == HIGH && digitalRead(2) == HIGH) {
+  } else if (digitalRead(button1) == LOW && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("f#5");
       note = fSharp4 * 2;
@@ -164,7 +167,7 @@ void loop() {
       Serial.println("f#4");
       note = fSharp4;
     }
-  } else if (digitalRead(0) == LOW && digitalRead(1) == LOW && digitalRead(2) == HIGH) {
+  } else if (digitalRead(button1) == LOW && digitalRead(button2) == LOW && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("g5");
       note = g4 * 2;
@@ -173,7 +176,7 @@ void loop() {
       note = g4;
     }
 
-  } else if (digitalRead(0) == LOW && digitalRead(1) == LOW && digitalRead(2) == LOW) {
+  } else if (digitalRead(button1) == LOW && digitalRead(button2) == LOW && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("a5");
       note = a4 * 2;
@@ -182,7 +185,7 @@ void loop() {
       note = a4;
     }
 
-  } else if (digitalRead(0) == HIGH && digitalRead(1) == LOW && digitalRead(2) == HIGH) {
+  } else if (digitalRead(button1) == HIGH && digitalRead(button2) == LOW && digitalRead(button3) == HIGH) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("b5");
       note = b4 * 2;
@@ -191,7 +194,7 @@ void loop() {
       note = b4;
     }
 
-  } else if (digitalRead(0) == HIGH && digitalRead(1) == LOW && digitalRead(2) == LOW) {
+  } else if (digitalRead(button1) == HIGH && digitalRead(button2) == LOW && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("c#5");
       note = cSharp5 * 2;
@@ -200,7 +203,7 @@ void loop() {
       note = cSharp5;
     }
 
-  } else if (digitalRead(0) == HIGH && digitalRead(1) == HIGH && digitalRead(2) == LOW) {
+  } else if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("d6");
       note = d5 * 2;
@@ -209,7 +212,7 @@ void loop() {
       note = d5;
     }
 
-  } else if (digitalRead(0) == LOW && digitalRead(1) == HIGH && digitalRead(2) == LOW) {
+  } else if (digitalRead(button1) == LOW && digitalRead(button2) == HIGH && digitalRead(button3) == LOW) {
     if (digitalRead(octButton) == LOW) {
       Serial.println("e6");
       note = e4 * 2 * 2;
