@@ -67,6 +67,7 @@ AudioConnection          patchCord31(FXmixer, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=63.5,64
 // GUItool: end automatically generated code
 
+bool lastNoteLow = true;
 
 float note = 0;
 // base notes
@@ -173,7 +174,7 @@ void loop() {
 
   pink1.amplitude(pinkAmp);
   pink2.amplitude(pinkAmp);
-  
+
   // 5v
   //float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
   //float distance = 13 * pow(volts, -1); // worked out from datasheet graph
@@ -186,7 +187,7 @@ void loop() {
 
 
   //Serial.println(distance);
-   Serial.println(distToFreq);
+  //Serial.println(distToFreq);
 
   //ADSR
   env.attack(50);
@@ -203,14 +204,14 @@ void loop() {
 
   freeverb1.roomsize(0.5);
   freeverb1.damping(0.7);
-  
+
   FXmixer.gain(0, 0.7);
   FXmixer.gain(1, 0.7);
 
 
-  if(digitalRead(button1) == LOW) Serial.println("button1 pressed");
-  if(digitalRead(button2) == LOW) Serial.println("button2 pressed");
-  if(digitalRead(button3) == LOW) Serial.println("button3 pressed");
+  if (digitalRead(button1) == LOW) Serial.println("button1 pressed");
+  if (digitalRead(button2) == LOW) Serial.println("button2 pressed");
+  if (digitalRead(button3) == LOW) Serial.println("button3 pressed");
 
   // Controller
   if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
@@ -291,30 +292,53 @@ void loop() {
 
 
 
-  delay(10);
+  // delay(10);
   airPressure = analogRead(airSensor);
 
-  // Serial.println(airPressure);
-  delay(100);
+  Serial.println(airPressure);
+ // delay(100);
 
 
   //play
-  
+  if (lastNoteLow)
+    note = note / 8;
+
   if (airPressure > 150 && !notePlaying) {
     notePlaying = true;
+    lastNoteLow = false;
     noiseAmp = 0;
     pinkAmp = 0;
     env.noteOn();
   }
-  if (airPressure < 150) {
-    notePlaying = false;
-    env.noteOff();
+
+  else if (airPressure < 75 && !notePlaying) {
+    lastNoteLow = true;
+    notePlaying = true;
+    noiseAmp = 0;
+    pinkAmp = 0;
+    note = note / 8;
+    env.noteOn();
+    
   }
 
-  vol = map(airPressure, 150, 1000, 0.5, 1);
-  waveformAmp = map(airPressure, 150, 1000, 0, 0.7);
-  sgtl5000_1.volume(vol);
 
+  if (airPressure >= 150) {
+    vol = map(airPressure, 150, 1000, 0.5, 1);
+    waveformAmp = map(airPressure, 150, 1000, 0, 0.7);
+    sgtl5000_1.volume(vol);
+  }
+  if (airPressure < 75) {
+    //note = note / 8;
+    vol = map(airPressure, 75, 0, 0.9, 1);
+    waveformAmp = map(airPressure, 75, 0, 0.9, 1);
+    sgtl5000_1.volume(vol);
+  }
+
+  if (airPressure < 150 && airPressure > 75) {
+    notePlaying = false;
+    env.noteOff();
+    vol = 0;
+  }
 }
 
 
