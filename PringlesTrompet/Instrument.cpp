@@ -15,6 +15,35 @@ Instrument::Instrument() {}
 // setup of the instrument instance
 void Instrument::setupInstrument() {
   // GUItool: begin automatically generated code
+  // GUItool: begin automatically generated code
+    AudioSynthWaveformSine   sine16;         //xy=174,726
+    AudioSynthWaveformSine   sine15;         //xy=185,686
+    AudioSynthWaveformSine   sine14;         //xy=186,652
+    AudioSynthWaveformSine   sine13;         //xy=187,618
+    AudioSynthWaveformSine   sine8;          //xy=190,452
+    AudioSynthWaveformSine   sine7;          //xy=191,417
+    AudioSynthWaveformSine   sine6;          //xy=192,383
+    AudioSynthWaveformSine   sine5;          //xy=193,349
+    AudioSynthWaveformSine   sine11;         //xy=193,551
+    AudioSynthWaveformSine   sine12;         //xy=193,584
+    AudioSynthWaveformSine   sine10;         //xy=194,518
+    AudioSynthWaveformSine   sine9;          //xy=195,486
+    AudioSynthWaveformSine   sine3;          //xy=199,282
+    AudioSynthWaveformSine   sine4;          //xy=199,315
+    AudioSynthWaveformSine   sine2;          //xy=200,249
+    AudioSynthWaveformSine   sine1;          //xy=201,217
+    AudioMixer4              mixer4;         //xy=434,637
+    AudioMixer4              mixer3;         //xy=435,573
+    AudioMixer4              mixer2;         //xy=440,368
+    AudioMixer4              mixer1;         //xy=441,304
+    AudioMixer4              tromponeMaster; //xy=600,453
+    AudioFilterStateVariable filter1;        //xy=775,450
+    AudioEffectEnvelope      env;            //xy=910,387
+    AudioEffectFreeverb      freeverb1;      //xy=915,500
+    AudioMixer4              FXmixer;        //xy=1103,498
+    AudioOutputI2S           i2s1;           //xy=1248,241
+    AudioControlSGTL5000     sgtl5000_1;     //xy=64,58
+    // GUItool: end automatically generated code
   AudioConnection          patchCord1(sine16, 0, mixer4, 3);
   AudioConnection          patchCord2(sine15, 0, mixer4, 2);
   AudioConnection          patchCord3(sine14, 0, mixer4, 1);
@@ -48,7 +77,7 @@ void Instrument::setupInstrument() {
 
   // enable the audio shield
   sgtl5000_1.enable();
-  sgtl5000_1.volume(vol);
+  sgtl5000_1.volume(0.4);
 
   // Control
   Serial.begin(38400);
@@ -57,6 +86,8 @@ void Instrument::setupInstrument() {
   pinMode(button3, INPUT_PULLUP);
   pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
+
+  env.noteOn();
 }
 
 // update method of the instrument instance
@@ -107,13 +138,13 @@ void Instrument::updateInstrument() {
     notePlaying = true;
     env.noteOn();
   }
-  if (airPressure < 150) {
-    notePlaying = false;
-    env.noteOff();
-  }
+ // if (airPressure < 150) {
+ //   notePlaying = false;
+ //   env.noteOff();
+ // }
 
-  vol = map(airPressure, 150, 1000, 0, 1);
-  sgtl5000_1.volume(vol);
+ // vol = map(airPressure, 150, 1000, 0, 1);
+ // sgtl5000_1.volume(vol);
 }
 
 // set the frequencies and amplitudes of the instrument
