@@ -5,48 +5,50 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveformSine   sine16;         //xy=174,726
-AudioSynthWaveformSine   sine15;         //xy=185,686
-AudioSynthWaveformSine   sine14;         //xy=186,652
-AudioSynthWaveformSine   sine13;         //xy=187,618
-AudioSynthWaveformSine   sine8;          //xy=190,452
-AudioSynthWaveformSine   sine7;          //xy=191,417
-AudioSynthWaveformSine   sine6;          //xy=192,383
-AudioSynthWaveformSine   sine5;          //xy=193,349
-AudioSynthWaveformSine   sine11;         //xy=193,551
-AudioSynthWaveformSine   sine12;         //xy=193,584
-AudioSynthWaveformSine   sine10;         //xy=194,518
-AudioSynthWaveformSine   sine9;          //xy=195,486
-AudioSynthWaveformSine   sine3;          //xy=199,282
-AudioSynthWaveformSine   sine4;          //xy=199,315
-AudioSynthWaveformSine   sine2;          //xy=200,249
-AudioSynthWaveformSine   sine1;          //xy=201,217
-AudioMixer4              mixer4;         //xy=434,637
-AudioMixer4              mixer3;         //xy=435,573
-AudioMixer4              mixer2;         //xy=440,368
-AudioMixer4              mixer1;         //xy=441,304
-AudioMixer4              tromponeMaster; //xy=600,453
-AudioFilterStateVariable filter1;        //xy=775,450
-AudioEffectEnvelope      env;            //xy=910,387
-AudioEffectFreeverb      freeverb1;      //xy=915,500
-AudioMixer4              FXmixer;        //xy=1103,498
-AudioOutputI2S           i2s1;           //xy=1248,241
-AudioConnection          patchCord1(sine16, 0, mixer4, 3);
-AudioConnection          patchCord2(sine15, 0, mixer4, 2);
-AudioConnection          patchCord3(sine14, 0, mixer4, 1);
-AudioConnection          patchCord4(sine13, 0, mixer4, 0);
-AudioConnection          patchCord5(sine8, 0, mixer2, 3);
-AudioConnection          patchCord6(sine7, 0, mixer2, 2);
-AudioConnection          patchCord7(sine6, 0, mixer2, 1);
-AudioConnection          patchCord8(sine5, 0, mixer2, 0);
-AudioConnection          patchCord9(sine11, 0, mixer3, 2);
-AudioConnection          patchCord10(sine12, 0, mixer3, 3);
-AudioConnection          patchCord11(sine10, 0, mixer3, 1);
-AudioConnection          patchCord12(sine9, 0, mixer3, 0);
-AudioConnection          patchCord13(sine3, 0, mixer1, 2);
-AudioConnection          patchCord14(sine4, 0, mixer1, 3);
-AudioConnection          patchCord15(sine2, 0, mixer1, 1);
-AudioConnection          patchCord16(sine1, 0, mixer1, 0);
+AudioSynthNoiseWhite     noise2;         //xy=183.0500030517578,684.0499877929688
+AudioSynthNoiseWhite     noise1;         //xy=185.0500030517578,648.0500030517578
+AudioSynthNoisePink      pink1;          //xy=187.0500030517578,723.0499267578125
+AudioSynthWaveformSine   sine8;          //xy=189.5,458
+AudioSynthWaveformSine   sine7;          //xy=190.5,423
+AudioSynthWaveformSine   sine6;          //xy=191.5,389
+AudioSynthNoisePink      pink2;          //xy=190.0500030517578,760.0500030517578
+AudioSynthWaveform       waveform2;      //xy=191.0500030517578,534.0500030517578
+AudioSynthWaveformSine   sine5;          //xy=192.5,355
+AudioSynthWaveform       waveform1;      //xy=192.0500030517578,500.0500030517578
+AudioSynthWaveform       waveform3;      //xy=195.0500030517578,567.0500030517578
+AudioSynthWaveformSine   sine3;          //xy=198.5,288
+AudioSynthWaveformSine   sine4;          //xy=198.5,321
+AudioSynthWaveformSine   sine2;          //xy=199.5,255
+AudioSynthWaveformSine   sine1;          //xy=200.5,223
+AudioSynthWaveform       waveform4;      //xy=204.0500030517578,602.0499877929688
+AudioMixer4              mixer4;         //xy=433.5,643
+AudioMixer4              mixer3;         //xy=434.5,579
+AudioMixer4              mixer2;         //xy=439.5,374
+AudioMixer4              mixer1;         //xy=440.5,310
+AudioMixer4              tromponeMaster; //xy=599.5,459
+AudioFilterStateVariable filter1;        //xy=774.5,456
+AudioEffectEnvelope      env;            //xy=909.5,393
+AudioEffectDelay         delay1;         //xy=938.0499877929688,556.0499877929688
+AudioEffectBitcrusher    bitcrusher1;    //xy=943.0500030517578,666.0500030517578
+AudioEffectFreeverb      freeverb1;      //xy=954.5000610351562,462
+AudioMixer4              FXmixer;        //xy=1140.5,491
+AudioOutputI2S           i2s1;           //xy=1247.5,247
+AudioConnection          patchCord1(noise2, 0, mixer4, 1);
+AudioConnection          patchCord2(noise1, 0, mixer4, 0);
+AudioConnection          patchCord3(pink1, 0, mixer4, 2);
+AudioConnection          patchCord4(sine8, 0, mixer2, 3);
+AudioConnection          patchCord5(sine7, 0, mixer2, 2);
+AudioConnection          patchCord6(sine6, 0, mixer2, 1);
+AudioConnection          patchCord7(pink2, 0, mixer4, 3);
+AudioConnection          patchCord8(waveform2, 0, mixer3, 1);
+AudioConnection          patchCord9(sine5, 0, mixer2, 0);
+AudioConnection          patchCord10(waveform1, 0, mixer3, 0);
+AudioConnection          patchCord11(waveform3, 0, mixer3, 2);
+AudioConnection          patchCord12(sine3, 0, mixer1, 2);
+AudioConnection          patchCord13(sine4, 0, mixer1, 3);
+AudioConnection          patchCord14(sine2, 0, mixer1, 1);
+AudioConnection          patchCord15(sine1, 0, mixer1, 0);
+AudioConnection          patchCord16(waveform4, 0, mixer3, 3);
 AudioConnection          patchCord17(mixer4, 0, tromponeMaster, 3);
 AudioConnection          patchCord18(mixer3, 0, tromponeMaster, 2);
 AudioConnection          patchCord19(mixer2, 0, tromponeMaster, 1);
@@ -55,11 +57,16 @@ AudioConnection          patchCord21(tromponeMaster, 0, filter1, 0);
 AudioConnection          patchCord22(filter1, 0, env, 0);
 AudioConnection          patchCord23(env, freeverb1);
 AudioConnection          patchCord24(env, 0, FXmixer, 0);
-AudioConnection          patchCord25(freeverb1, 0, FXmixer, 1);
-AudioConnection          patchCord26(FXmixer, 0, i2s1, 0);
-AudioConnection          patchCord27(FXmixer, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=64,58
+AudioConnection          patchCord25(env, delay1);
+AudioConnection          patchCord26(env, bitcrusher1);
+AudioConnection          patchCord27(delay1, 0, FXmixer, 2);
+AudioConnection          patchCord28(bitcrusher1, 0, FXmixer, 3);
+AudioConnection          patchCord29(freeverb1, 0, FXmixer, 1);
+AudioConnection          patchCord30(FXmixer, 0, i2s1, 0);
+AudioConnection          patchCord31(FXmixer, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=63.5,64
 // GUItool: end automatically generated code
+
 
 float note = 0;
 // base notes
@@ -72,11 +79,11 @@ float cSharp5 = 554.4;
 float d5 = 587.3;
 
 // buttons
-int button1 = 0;
-int button2 = 1;
-int button3 = 2;
-int octButton = 3;
-int effectsButton = 4;
+int button1 = 3;
+int button3 = 1;
+int button2 = 2;
+int octButton = 4;
+int effectsButton = 0;
 
 // states of effects button: activate or deactivate
 boolean isPressing = false;
@@ -89,6 +96,12 @@ boolean isUsingEffect = false;
 float distToFreq = 0;
 float vol = 0;
 
+float airPressure = 0;
+
+int noiseAmp = 0, pinkAmp = 0;
+
+boolean notePlaying = false;
+
 // ------------------------ ARDUINO SETUP METHOD ------------------------
 
 void setup() {
@@ -96,10 +109,10 @@ void setup() {
 
   // enable the audio shield
   sgtl5000_1.enable();
-  
-  sgtl5000_1.volume(0.4);
 
-  env.noteOn();
+  sgtl5000_1.volume(vol);
+
+  // env.noteOn();
 
   // Control
   Serial.begin(38400);
@@ -109,6 +122,7 @@ void setup() {
   pinMode(effectsButton, INPUT_PULLUP);
   pinMode(octButton, INPUT_PULLUP);
 
+  // delay1.delay(0, 666.7);
 
 }
 
@@ -136,35 +150,65 @@ void loop() {
   sine7.amplitude(0.08);
   sine8.amplitude(0.04);
 
-   // 5v
+  // setting the waveforms
+  waveform1.begin(WAVEFORM_SAWTOOTH);
+  waveform2.begin(WAVEFORM_TRIANGLE);
+  waveform3.begin(WAVEFORM_SQUARE);
+  waveform4.begin(WAVEFORM_PULSE);
+  waveform1.frequency(1 * note);
+  waveform2.frequency(1 * note);
+  waveform3.frequency(2 * note);
+  waveform4.frequency(3 * note);
+  waveform1.amplitude(0);
+  waveform2.amplitude(0);
+  waveform3.amplitude(0);
+  waveform4.amplitude(0);
+
+  noiseAmp = map(airPressure, 150, 1000, 0.5, 0);
+  pinkAmp = map(airPressure, 150, 1000, 0.5, 0);
+
+  noise1.amplitude(noiseAmp);
+  noise2.amplitude(noiseAmp);
+
+  pink1.amplitude(pinkAmp);
+  pink2.amplitude(pinkAmp);
+  
+  // 5v
   //float volts = analogRead(IRSensor) * 0.0048828125; // value from IR sensor * (5/1024)
   //float distance = 13 * pow(volts, -1); // worked out from datasheet graph
   float distance = analogRead(IRSensor);
   //if (distance > 50) {
   //  distance = 50;
- // }
-  distToFreq = map(distance, 700, 90, 300, 9000);
+  // }
+  distToFreq = map(distance, 850, 200, 300, 9000);
 
 
-  //Serial.println(distance);
-  //Serial.println(distToFreq);
+  Serial.println(distance);
+  // Serial.println(distToFreq);
 
-  
-
-  // setting the frequency, resonance and octave of the filter
-  filter1.frequency(distToFreq); //set to current tone
-  filter1.resonance(5);
-  filter1.octaveControl(1);
-
+  //ADSR
   env.attack(50);
   env.sustain(0.3);
 
+  // FX
+
+  // setting the frequency, resonance and octave of the filter
+  filter1.frequency(distToFreq); //set to current tone
+  filter1.resonance(3);
+  filter1.octaveControl(1);
+
+
+
   freeverb1.roomsize(0.2);
   freeverb1.damping(1);
-
+  
+  FXmixer.gain(0, 0.7);
   FXmixer.gain(1, 0.5);
 
 
+  if(digitalRead(button1) == LOW) Serial.println("button1 pressed");
+  if(digitalRead(button2) == LOW) Serial.println("button2 pressed");
+  if(digitalRead(button3) == LOW) Serial.println("button3 pressed");
 
   // Controller
   if (digitalRead(button1) == HIGH && digitalRead(button2) == HIGH && digitalRead(button3) == HIGH) {
@@ -239,49 +283,56 @@ void loop() {
     }
   }
 
-  
+
   // check the state of the effects button
   checkEffectsButton();
 
- 
+
 
   delay(10);
-  float airPressure = analogRead(airSensor);
+  airPressure = analogRead(airSensor);
 
-   Serial.println(airPressure);
+  // Serial.println(airPressure);
   delay(100);
 
-  
+
   //play
-   boolean notePlaying = false;
-  if (airPressure > 150 && !notePlaying){
+  
+  if (airPressure > 150 && !notePlaying) {
     notePlaying = true;
+    noiseAmp = 0;
+    pinkAmp = 0;
     env.noteOn();
   }
-  /*if (airPressure < 150){
+  if (airPressure < 150) {
     notePlaying = false;
     env.noteOff();
   }
 
-  vol = map(airPressure, 150, 1000, 0, 1);
+  vol = map(airPressure, 150, 1000, 0.5, 1);
   sgtl5000_1.volume(vol);
-  */
+
 }
 
 
 
 void checkEffectsButton() {
   if (digitalRead(effectsButton) == LOW) {
-    if(!isPressing) { // if the user is not pressing anymore
+    if (!isPressing) { // if the user is not pressing anymore
       isUsingEffect = !isUsingEffect; // set the effect state to its opposite
       isPressing = true;
     }
   }
-  else if(digitalRead(effectsButton) == HIGH) {
+  else if (digitalRead(effectsButton) == HIGH) {
     isPressing = false;
   }
-  if(isUsingEffect) {
-   //  Serial.println("KABOOM");
-  }  
+  if (isUsingEffect) {
+    Serial.println("KABOOM");
+    FXmixer.gain(2, 0.5);
+  }
+  else {
+    FXmixer.gain(2, 0);
+    // delay1.disable(0);
+  }
 
 }
