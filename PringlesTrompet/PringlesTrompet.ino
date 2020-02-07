@@ -26,11 +26,11 @@ AudioMixer4              mixer3;         //xy=434.5,579
 AudioMixer4              mixer2;         //xy=439.5,374
 AudioMixer4              mixer1;         //xy=440.5,310
 AudioMixer4              tromponeMaster; //xy=599.5,459
-AudioFilterStateVariable filter1;        //xy=774.5,456
-AudioEffectEnvelope      env;            //xy=909.5,393
+AudioEffectEnvelope      env;            //xy=753.5,398
 AudioEffectDelay         delay1;         //xy=938.0499877929688,556.0499877929688
 AudioEffectBitcrusher    bitcrusher1;    //xy=943.0500030517578,666.0500030517578
 AudioEffectFreeverb      freeverb1;      //xy=954.5000610351562,462
+AudioFilterStateVariable filter1;        //xy=966.5,374
 AudioMixer4              FXmixer;        //xy=1140.5,491
 AudioOutputI2S           i2s1;           //xy=1247.5,247
 AudioConnection          patchCord1(noise2, 0, mixer4, 1);
@@ -53,15 +53,15 @@ AudioConnection          patchCord17(mixer4, 0, tromponeMaster, 3);
 AudioConnection          patchCord18(mixer3, 0, tromponeMaster, 2);
 AudioConnection          patchCord19(mixer2, 0, tromponeMaster, 1);
 AudioConnection          patchCord20(mixer1, 0, tromponeMaster, 0);
-AudioConnection          patchCord21(tromponeMaster, 0, filter1, 0);
-AudioConnection          patchCord22(filter1, 0, env, 0);
-AudioConnection          patchCord23(env, freeverb1);
-AudioConnection          patchCord24(env, 0, FXmixer, 0);
-AudioConnection          patchCord25(env, delay1);
-AudioConnection          patchCord26(env, bitcrusher1);
-AudioConnection          patchCord27(delay1, 0, FXmixer, 2);
-AudioConnection          patchCord28(bitcrusher1, 0, FXmixer, 3);
-AudioConnection          patchCord29(freeverb1, 0, FXmixer, 1);
+AudioConnection          patchCord21(tromponeMaster, env);
+AudioConnection          patchCord22(env, freeverb1);
+AudioConnection          patchCord23(env, delay1);
+AudioConnection          patchCord24(env, bitcrusher1);
+AudioConnection          patchCord25(env, 0, filter1, 0);
+AudioConnection          patchCord26(delay1, 0, FXmixer, 2);
+AudioConnection          patchCord27(bitcrusher1, 0, FXmixer, 3);
+AudioConnection          patchCord28(freeverb1, 0, FXmixer, 1);
+AudioConnection          patchCord29(filter1, 0, FXmixer, 0);
 AudioConnection          patchCord30(FXmixer, 0, i2s1, 0);
 AudioConnection          patchCord31(FXmixer, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=63.5,64
@@ -100,6 +100,7 @@ float airPressure = 0;
 
 int noiseAmp = 0, pinkAmp = 0;
 
+int waveformAmp = 0;
 boolean notePlaying = false;
 
 // ------------------------ ARDUINO SETUP METHOD ------------------------
@@ -156,11 +157,11 @@ void loop() {
   waveform3.begin(WAVEFORM_SQUARE);
   waveform4.begin(WAVEFORM_PULSE);
   waveform1.frequency(1 * note);
-  waveform2.frequency(1 * note + 0.1);
+  waveform2.frequency(1 * note + 0.2);
   waveform3.frequency(2 * note);
   waveform4.frequency(3 * note);
-  waveform1.amplitude(0.7);
-  waveform2.amplitude(0.5);
+  waveform1.amplitude(waveformAmp);
+  waveform2.amplitude(waveformAmp);
   waveform3.amplitude(0);
   waveform4.amplitude(0);
 
@@ -199,11 +200,11 @@ void loop() {
 
 
 
-  freeverb1.roomsize(0.2);
-  freeverb1.damping(1);
+  freeverb1.roomsize(0.5);
+  freeverb1.damping(0.7);
   
   FXmixer.gain(0, 0.7);
-  FXmixer.gain(1, 0.5);
+  FXmixer.gain(1, 0.7);
 
 
   if(digitalRead(button1) == LOW) Serial.println("button1 pressed");
@@ -310,6 +311,7 @@ void loop() {
   }
 
   vol = map(airPressure, 150, 1000, 0.5, 1);
+  waveformAmp = map(airPressure, 150, 1000, 0, 1);
   sgtl5000_1.volume(vol);
 
 }
