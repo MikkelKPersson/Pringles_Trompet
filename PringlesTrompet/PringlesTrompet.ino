@@ -181,11 +181,12 @@ void loop() {
   //if (distance > 50) {
   //  distance = 50;
   // }
-  distToFreq = map(distance, 850, 200, 100, 9000);
+  distToFreq = map(distance, 850, 200, 1, 4);
+  distToFreq = pow(10, distToFreq);
 
 
-  Serial.println(distance);
-  // Serial.println(distToFreq);
+  //Serial.println(distance);
+   Serial.println(distToFreq);
 
   //ADSR
   env.attack(50);
@@ -311,7 +312,7 @@ void loop() {
   }
 
   vol = map(airPressure, 150, 1000, 0.5, 1);
-  waveformAmp = map(airPressure, 150, 1000, 0, 1);
+  waveformAmp = map(airPressure, 150, 1000, 0, 0.7);
   sgtl5000_1.volume(vol);
 
 }
