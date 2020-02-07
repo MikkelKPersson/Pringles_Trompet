@@ -146,24 +146,24 @@ void loop() {
   sine2.amplitude(0.1);
   sine3.amplitude(0.20);
   sine4.amplitude(0.174);
-  sine5.amplitude(0.12);
-  sine6.amplitude(0.075);
-  sine7.amplitude(0.08);
-  sine8.amplitude(0.04);
+  sine5.amplitude(0.2);
+  sine6.amplitude(0.3);
+  sine7.amplitude(0.2);
+  sine8.amplitude(0.1);
 
   // setting the waveforms
   waveform1.begin(WAVEFORM_SAWTOOTH);
   waveform2.begin(WAVEFORM_SAWTOOTH);
-  waveform3.begin(WAVEFORM_SQUARE);
-  waveform4.begin(WAVEFORM_PULSE);
-  waveform1.frequency(1 * note);
-  waveform2.frequency(1 * note + 0.2);
-  waveform3.frequency(2 * note);
-  waveform4.frequency(3 * note);
+  waveform3.begin(WAVEFORM_SAWTOOTH);
+  waveform4.begin(WAVEFORM_SAWTOOTH);
+  waveform1.frequency(1 * note + 0.2);
+  waveform2.frequency(2 * note + 0.2);
+  waveform3.frequency(3 * note + 0.2);
+  waveform4.frequency(4 * note + 0.2);
   waveform1.amplitude(waveformAmp);
   waveform2.amplitude(waveformAmp);
-  waveform3.amplitude(0);
-  waveform4.amplitude(0);
+  waveform3.amplitude(waveformAmp);
+  waveform4.amplitude(waveformAmp);
 
   noiseAmp = map(airPressure, 150, 1000, 0.5, 0);
   pinkAmp = map(airPressure, 150, 1000, 0.5, 0);
