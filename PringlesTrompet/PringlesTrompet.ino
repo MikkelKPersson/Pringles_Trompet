@@ -141,26 +141,26 @@ void loop() {
   sine8.frequency(8 * note);
 
   // setting the amplitude of the sines
-  sine1.amplitude(0.19);
+  sine1.amplitude(0.50);
   sine2.amplitude(0.1);
-  sine3.amplitude(0.11);
-  sine4.amplitude(0.34);
-  sine5.amplitude(0.43);
+  sine3.amplitude(0.20);
+  sine4.amplitude(0.174);
+  sine5.amplitude(0.12);
   sine6.amplitude(0.075);
   sine7.amplitude(0.08);
   sine8.amplitude(0.04);
 
   // setting the waveforms
   waveform1.begin(WAVEFORM_SAWTOOTH);
-  waveform2.begin(WAVEFORM_TRIANGLE);
+  waveform2.begin(WAVEFORM_SAWTOOTH);
   waveform3.begin(WAVEFORM_SQUARE);
   waveform4.begin(WAVEFORM_PULSE);
   waveform1.frequency(1 * note);
-  waveform2.frequency(1 * note);
+  waveform2.frequency(1 * note + 0.1);
   waveform3.frequency(2 * note);
   waveform4.frequency(3 * note);
-  waveform1.amplitude(0);
-  waveform2.amplitude(0);
+  waveform1.amplitude(0.7);
+  waveform2.amplitude(0.5);
   waveform3.amplitude(0);
   waveform4.amplitude(0);
 
@@ -180,7 +180,7 @@ void loop() {
   //if (distance > 50) {
   //  distance = 50;
   // }
-  distToFreq = map(distance, 850, 200, 300, 9000);
+  distToFreq = map(distance, 850, 200, 100, 9000);
 
 
   Serial.println(distance);
@@ -194,8 +194,8 @@ void loop() {
 
   // setting the frequency, resonance and octave of the filter
   filter1.frequency(distToFreq); //set to current tone
-  filter1.resonance(3);
-  filter1.octaveControl(1);
+  filter1.resonance(5);
+  filter1.octaveControl(7);
 
 
 
